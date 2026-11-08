@@ -21,17 +21,19 @@ export default router.get("/", async (req, res) => {
     const filterConditions = [];
 
     //If search query exists, filter by subject name or subject code
-    if (search) {
+    const searchTerm = typeof search === "string" ? search.trim() : "";
+    const departmentTerm = typeof department === "string" ? department.trim() : "";
+    if (searchTerm) {
       filterConditions.push(
         or(
-          ilike(subjects.name, `%${search}%`),
-          ilike(subjects.code, `%${search}%`),
+          ilike(subjects.name, `%${searchTerm}%`),
+          ilike(subjects.code, `%${searchTerm}%`),
         ),
       );
     }
 
-    if (department) {
-      const deptPattern = `%${String(department).replace(/[%_]/g, "\\$&")}%`;
+    if (departmentTerm) {
+      const deptPattern = `%${String(departmentTerm).replace(/[%_]/g, "\\$&")}%`;
       filterConditions.push(ilike(departments.name, deptPattern));
     }
     const whereClause =
@@ -68,6 +70,6 @@ export default router.get("/", async (req, res) => {
     });
   } catch (e) {
     console.error(`GET /subjects error : ${e}`);
-    res.status(500).json({ error: "Failed to get subjetcts" });
+    res.status(500).json({ error: "Failed to get subjects" });
   }
 });

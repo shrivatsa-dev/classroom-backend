@@ -17,7 +17,7 @@ export const subjects = pgTable('subjects', {
   id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
   departmentId: integer('department_id').notNull().references(() => departments.id, {onDelete : 'restrict'}),
   name: varchar('name', { length: 255 }).notNull(),
-  ode: varchar('code', { length: 50 }).notNull().unique(),
+  code: varchar('code', { length: 50 }).notNull().unique(),
   description: varchar('description', { length: 255 }),
   ...timestamps
 })
@@ -34,5 +34,5 @@ export const subjectsRelations = relations(subjects, ({ one, many }) => ({
 export type Department = typeof departments.$inferSelect;
 export type NewDepartment = typeof departments.$inferInsert;
 
-export type Subject = typeof departments.$inferSelect;
-export type NewSubject = typeof departments.$inferInsert;
+export type Subject = typeof subjects.$inferSelect;
+export type NewSubject = typeof subjects.$inferInsert;

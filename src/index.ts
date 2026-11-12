@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import subjectsRouter from "./routes/subjects.js";
+import securityMiddleware from "./middleware/security.js";
 
 const app = express();
 const PORT = 8000;
@@ -13,6 +14,8 @@ if (!process.env.FRONTEND_URL) {
 const frontendOrigin = process.env.FRONTEND_URL.trim().replace(/\/+$/, "");
 
 app.use(express.json());
+
+app.use(securityMiddleware)
 app.use(
   cors({
     origin: frontendOrigin,

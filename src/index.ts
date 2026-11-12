@@ -15,7 +15,6 @@ const frontendOrigin = process.env.FRONTEND_URL.trim().replace(/\/+$/, "");
 
 app.use(express.json());
 
-app.use(securityMiddleware)
 app.use(
   cors({
     origin: frontendOrigin,
@@ -24,6 +23,7 @@ app.use(
   }),
 );
 
+app.use(securityMiddleware);
 app.use("/api/subjects", subjectsRouter);
 
 app.get("/", (req, res) => {
